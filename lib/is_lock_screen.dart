@@ -1,7 +1,8 @@
 library is_lock_screen;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
+import 'package:flutter/services.dart';
+
+Future<bool> isLockScreen() async {
+  const channel = MethodChannel('is_lock_screen');
+  return await channel.invokeMethod('isLockScreen') as bool;
 }

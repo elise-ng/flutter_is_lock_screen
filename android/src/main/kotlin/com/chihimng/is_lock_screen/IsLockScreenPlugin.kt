@@ -40,10 +40,25 @@ public class IsLockScreenPlugin: FlutterPlugin, MethodCallHandler {
   }
 
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
-    if (call.method == "getPlatformVersion") {
-      result.success("Android ${android.os.Build.VERSION.RELEASE}")
-    } else {
-      result.notImplemented()
+    switch (call.method) {
+      case "isLockScreen":
+      // Ref: https://gist.github.com/Jeevuz/4ec01688083670b1f3f92af64e44c112
+      val keyguardManager: KeyguardManager = context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+      val inKeyguardRestrictedInputMode: Boolean = keyguardManager.inKeyguardRestrictedInputMode()
+
+      val isLocked = if (inKeyguardRestrictedInputMode) {
+        true
+      } else {
+        val powerManager: PowerManager = context.getSystemService(Context.POWER_SERVICE) as PowerManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
+          !powerManager.isInteractive()
+        } else {
+          !powerManager.isScreenOn()
+        }
+      }
+      return result.success(isLocked)
+      default:
+      return result.notImplemented()
     }
   }
 
