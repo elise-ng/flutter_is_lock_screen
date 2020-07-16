@@ -1,8 +1,8 @@
 name: is_lock_screen
-description: A new Flutter package project.
+description: Detects if device is in lock screen. Useful for determining whether app entered background due to locking screen or leaving app.
 version: 0.0.1
-author:
-homepage:
+author: Chi Him Ng <chihimng.io@gmail.com>
+repository: https://github.com/chihimng/flutter_is_lock_screen
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -20,6 +20,13 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
+  plugin:
+    platforms:
+      android:
+        package: com.chihimng.is_lock_screen
+        pluginClass: IsLockScreenPlugin
+      ios:
+        pluginClass: IsLockScreenPlugin
 
   # To add assets to your package, add an assets section, like this:
   # assets:

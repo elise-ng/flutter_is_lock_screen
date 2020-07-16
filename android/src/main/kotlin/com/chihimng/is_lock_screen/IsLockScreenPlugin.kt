@@ -1,5 +1,9 @@
 package com.chihimng.is_lock_screen
 
+import android.app.KeyguardManager
+import android.content.Context
+import android.os.Build
+import android.os.PowerManager
 import androidx.annotation.NonNull;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
@@ -10,16 +14,18 @@ import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry.Registrar
 
 /** IsLockScreenPlugin */
-public class IsLockScreenPlugin: FlutterPlugin, MethodCallHandler {
+public class IsLockScreenPlugin(val registrarContext: Context? = null) : FlutterPlugin, MethodCallHandler {
   /// The MethodChannel that will the communication between Flutter and native Android
   ///
   /// This local reference serves to register the plugin with the Flutter Engine and unregister it
   /// when the Flutter Engine is detached from the Activity
   private lateinit var channel : MethodChannel
+  private var bindingContext : Context? = null
 
   override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
+    bindingContext = flutterPluginBinding.applicationContext
     channel = MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), "is_lock_screen")
-    channel.setMethodCallHandler(this);
+    channel.setMethodCallHandler(this)
   }
 
   // This static function is optional and equivalent to onAttachedToEngine. It supports the old
@@ -35,30 +41,34 @@ public class IsLockScreenPlugin: FlutterPlugin, MethodCallHandler {
     @JvmStatic
     fun registerWith(registrar: Registrar) {
       val channel = MethodChannel(registrar.messenger(), "is_lock_screen")
-      channel.setMethodCallHandler(IsLockScreenPlugin())
+      channel.setMethodCallHandler(IsLockScreenPlugin(registrarContext = registrar.activeContext()))
     }
   }
 
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
-    switch (call.method) {
-      case "isLockScreen":
-      // Ref: https://gist.github.com/Jeevuz/4ec01688083670b1f3f92af64e44c112
-      val keyguardManager: KeyguardManager = context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
-      val inKeyguardRestrictedInputMode: Boolean = keyguardManager.inKeyguardRestrictedInputMode()
+    when (call.method) {
+      "isLockScreen" -> {
+        val context = bindingContext ?: registrarContext
+        ?: return result.error("NullContext", "Cannot access system service as context is null", null)
 
-      val isLocked = if (inKeyguardRestrictedInputMode) {
-        true
-      } else {
-        val powerManager: PowerManager = context.getSystemService(Context.POWER_SERVICE) as PowerManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
-          !powerManager.isInteractive()
+        val keyguardManager: KeyguardManager = context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+        val inKeyguardRestrictedInputMode: Boolean = keyguardManager.inKeyguardRestrictedInputMode()
+
+        val isLocked = if (inKeyguardRestrictedInputMode) {
+          true
         } else {
-          !powerManager.isScreenOn()
+          val powerManager: PowerManager = context.getSystemService(Context.POWER_SERVICE) as PowerManager
+          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
+            !powerManager.isInteractive
+          } else {
+            !powerManager.isScreenOn
+          }
         }
+        return result.success(isLocked)
       }
-      return result.success(isLocked)
-      default:
-      return result.notImplemented()
+      else -> {
+        return result.notImplemented()
+      }
     }
   }
 

@@ -25,7 +25,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     super.didChangeAppLifecycleState(state);
-    print('App Lifecycle State: ${state.toString()}, Is Lock Screen: ${await isLockScreen()}');
+    if (state == AppLifecycleState.inactive) {
+      print('app inactive, is lock screen: ${await isLockScreen()}');
+    }
   }
 
   @override
