@@ -6,6 +6,8 @@ Detects if device is locked. Useful for determining whether app entered backgrou
 
 Import library and call the following method.
 
+Note that this only works on physical device for iOS.
+
 ```dart
 bool result = await isLockScreen();
 ```
