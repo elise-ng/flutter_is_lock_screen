@@ -1,13 +1,13 @@
 # is_lock_screen
 
-Detects if device is in lock screen. Useful for determining whether app entered background due to locking screen or leaving app.
+Detects if device is locked. Useful for determining whether app entered background due to locking screen or leaving app.
 
 ## Usage
 
 Import library and call the following method.
 
 ```dart
-await isLockScreen(); // Returns bool. Null when exception occurs.
+bool result = await isLockScreen();
 ```
 
 You will probably observe the app lifecycle state and call this when app is in background:
@@ -32,4 +32,6 @@ You will probably observe the app lifecycle state and call this when app is in b
 
 An alternative to this plugin is [hardware_buttons](https://pub.dev/packages/hardware_buttons), which uses non-public API (`com.apple.springboard.lockcomplete`) on iOS to detect lock button usage and violates App Store requirements.
 
-To circumvent this issue, this plugin detects whether iOS device is in lock screen by attempting to adjust screen brightness as suggested [in this stack overflow answer](https://stackoverflow.com/a/46002893). On android, this plugin uses KeyguardManager and PowerManager API as outlined [in this gist](https://gist.github.com/Jeevuz/4ec01688083670b1f3f92af64e44c112).
+To circumvent this issue, this plugin detects whether iOS device is in lock screen by checking if screen brightness is 0.0 (the user-adjustable minimum is >0.01).
+
+On android, this plugin uses `KeyguardManager` and `PowerManager` API to check if device is secured or display is off as suggested [in this gist](https://gist.github.com/Jeevuz/4ec01688083670b1f3f92af64e44c112). A similar flow was tested on iOS with `LocalAuthentication` and `UIApplication.shared.isProtectedDataAvailable` but failed due to long grace period of the system lock down. The flag always return true the moment screen is locked.
