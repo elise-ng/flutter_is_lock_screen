@@ -4,14 +4,14 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'is_lock_screen'
-  s.version          = '0.0.1'
-  s.summary          = 'A new flutter plugin project.'
+  s.version          = '1.0.0'
+  s.summary          = 'Detects if device is in lock screen.'
   s.description      = <<-DESC
-A new flutter plugin project.
+Detects if device is in lock screen. Useful for determining whether app entered background due to locking screen or leaving app.
                        DESC
-  s.homepage         = 'http://example.com'
+  s.homepage         = 'https://github.com/chihimng/flutter_is_lock_screen'
   s.license          = { :file => '../LICENSE' }
-  s.author           = { 'Your Company' => 'email@example.com' }
+  s.author           = { 'Chi Him Ng' => 'chihimng.io@gmail.com' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
