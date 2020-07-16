@@ -1,6 +1,6 @@
 # is_lock_screen
 
-A new Flutter package project.
+Detects if device is in lock screen. Useful to determine whether app entered background due to locking screen or leaving app.
 
 ## Getting Started
 
