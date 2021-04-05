@@ -19,7 +19,7 @@ You will probably observe the app lifecycle state and call this when app is in b
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance?.addObserver(this);
   }
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
