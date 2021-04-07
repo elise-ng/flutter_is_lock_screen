@@ -9,26 +9,24 @@ Import library and call the following method.
 Note that this only works on physical device for iOS.
 
 ```dart
-bool result = await isLockScreen();
+bool? result = await isLockScreen();
 ```
 
-You will probably observe the app lifecycle state and call this when app is in background:
+You will probably observe the AppLifecycleState with a WidgetsBindingObserver and call this when app is in background:
 
 ```dart
-// Extend class with WidgetsBindingObserver
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addObserver(this);
+@override
+void didChangeAppLifecycleState(AppLifecycleState state) async {
+  super.didChangeAppLifecycleState(state);
+  if (state == AppLifecycleState.inactive) {
+    print('app inactive, is lock screen: ${await isLockScreen()}');
+  } else if (state == AppLifecycleState.resumed) {
+    print('app resumed');
   }
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) async {
-    super.didChangeAppLifecycleState(state);
-    if (state == AppLifecycleState.inactive) {
-      print('app inactive, is lock screen: ${await isLockScreen()}');
-    }
-  }
+}
 ```
+
+[See example app code for details](/example/lib/main.dart)
 
 ## Why this plugin?
 

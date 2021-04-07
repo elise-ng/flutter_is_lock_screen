@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-
-import 'package:flutter/services.dart';
 import 'package:is_lock_screen/is_lock_screen.dart';
 
 void main() {
@@ -14,12 +11,16 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
-  String _platformVersion = 'Unknown';
-
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance?.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance?.removeObserver(this);
+    super.dispose();
   }
 
   @override
@@ -27,6 +28,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.inactive) {
       print('app inactive, is lock screen: ${await isLockScreen()}');
+    } else if (state == AppLifecycleState.resumed) {
+      print('app resumed');
     }
   }
 

@@ -1,6 +1,6 @@
 PODS:
   - Flutter (1.0.0)
-  - is_lock_screen (0.0.1):
+  - is_lock_screen (1.0.0):
     - Flutter
 
 DEPENDENCIES:
@@ -14,9 +14,9 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/is_lock_screen/ios"
 
 SPEC CHECKSUMS:
-  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
-  is_lock_screen: 0a8e39fc5cdb7b2d538edc97e723905b46a72ff7
+  Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
+  is_lock_screen: 3312dcce52245e965b893a7886bb1b260ed51472
 
-PODFILE CHECKSUM: c34e2287a9ccaa606aeceab922830efb9a6ff69a
+PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.10.1
