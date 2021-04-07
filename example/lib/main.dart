@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-
-import 'package:flutter/services.dart';
 import 'package:is_lock_screen/is_lock_screen.dart';
 
 void main() {
@@ -14,8 +11,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
-  String _platformVersion = 'Unknown';
-
   @override
   void initState() {
     super.initState();
