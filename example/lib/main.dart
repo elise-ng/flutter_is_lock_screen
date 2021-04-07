@@ -33,6 +33,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.inactive) {
       print('app inactive, is lock screen: ${await isLockScreen()}');
+    } else if (state == AppLifecycleState.resumed) {
+      print('app resumed');
     }
   }
 
