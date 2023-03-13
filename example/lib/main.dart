@@ -14,12 +14,12 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance?.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
@@ -41,7 +41,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           title: const Text('Plugin example app'),
         ),
         body: Center(
-          child: Text('Test by changing app lifecycle (locking device / exiting app). Result will be print in console.'),
+          child: Text(
+              'Test by changing app lifecycle (locking device / exiting app). Result will be print in console.'),
         ),
       ),
     );
